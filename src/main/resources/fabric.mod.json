@@ -4,6 +4,11 @@
 	"version": "${version}",
 	"name": "Screenshot Folder",
 	"description": "A mod that allows configuring the directory in which your screenshots are saved into.",
+	"contact": {
+		"homepage": "https://modrinth.com/mod/screenshotfolder",
+		"issues": "https://github.com/Emirlol/ScreenshotFolder/issues",
+		"sources": "https://github.com/Emirlol/ScreenshotFolder"
+	},
 	"authors": [ "Rime" ],
 	"license": "MIT",
 	"environment": "client",
