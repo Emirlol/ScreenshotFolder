@@ -2,10 +2,10 @@
 	"schemaVersion": 1,
 	"id": "screenshotfolder",
 	"version": "${version}",
-	"name": "ScreenshotFolder",
+	"name": "Screenshot Folder",
 	"description": "A mod that allows configuring the directory in which your screenshots are saved into.",
 	"authors": [ "Rime" ],
-	"license": "All-Rights-Reserved",
+	"license": "MIT",
 	"environment": "client",
 	"entrypoints": {
 		"client": [
