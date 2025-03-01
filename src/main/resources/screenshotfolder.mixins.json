@@ -1,0 +1,12 @@
+{
+	"required": true,
+	"minVersion": "0.8",
+	"package": "me.rime.screenshotfolder.mixins",
+	"compatibilityLevel": "JAVA_21",
+	"client": [
+		"ScreenshotRecorderMixin"
+	],
+	"injectors": {
+		"defaultRequire": 1
+	}
+}
