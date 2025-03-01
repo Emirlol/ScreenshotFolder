@@ -22,6 +22,6 @@ object ScreenshotFolder {
 		}
 	}
 
-	const val NAME = "ScreenshotFolder"
+	const val NAME = "Screenshot Folder"
 	const val NAMESPACE = "screenshotfolder"
 }
