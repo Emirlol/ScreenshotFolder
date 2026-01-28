@@ -90,7 +90,15 @@ publishMods {
 	modLoaders.add("fabric")
 	type = STABLE
 	displayName = "Screenshot Folder ${project.version}"
-	changelog = ""
+	changelog = providers.fileContents(layout.projectDirectory.file("CHANGELOG.md")).asText
+		.map {
+			it.lineSequence()
+				.dropWhile { line -> !line.startsWith("## v$modVersion") } // Skip until this version's header
+				.drop(1) // Take the header
+				.takeWhile { line -> !line.startsWith("##") } // Take until next header
+				.joinToString("\n")
+				.trim() // Drop trailing newlines
+		}
 
 	modrinth {
 		accessToken = providers.environmentVariable("MODRINTH_TOKEN")
