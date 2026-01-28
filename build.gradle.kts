@@ -43,7 +43,8 @@ repositories {
 val modName = property("mod_name") as String
 val modId = property("mod_id") as String
 group = property("maven_group") as String
-version = "${properties["version"]}+${libs.versions.minecraft.get()}"
+val modVersion = property("mod_version") as String
+version = "$modVersion+${libs.versions.minecraft.get()}"
 
 dependencies {
 	minecraft(libs.minecraft)
@@ -66,8 +67,7 @@ tasks {
 			"fabric_kotlin_version" to libs.versions.fabricLanguageKotlin.get(),
 			"modmenu_version" to libs.versions.modMenu.get(),
 			"yacl_version" to libs.versions.yacl.get(),
-			"rimelib_version" to libs.versions.rimelib.get(),
-
+			"rimelib_version" to libs.versions.rimelib.get()
 		)
 		inputs.properties(props)
 		filesMatching("fabric.mod.json") {
@@ -76,11 +76,32 @@ tasks {
 	}
 	jar {
 		from("LICENSE") {
-			rename { "${it}_${base.archivesName.get()}"}
+			rename { "${it}_${base.archivesName.get()}" }
 		}
 	}
 }
 
 kotlin {
 	jvmToolchain(21)
+}
+
+publishMods {
+	file = tasks.remapJar.get().archiveFile
+	modLoaders.add("fabric")
+	type = STABLE
+	displayName = "Screenshot Folder ${project.version}"
+	changelog = ""
+
+	modrinth {
+		accessToken = providers.environmentVariable("MODRINTH_TOKEN")
+		projectId = "IapFyiRd"
+		minecraftVersions.addAll(libs.versions.minecraft.get())
+		requires("fabric-language-kotlin")
+		requires("fabric-api")
+		requires("yacl")
+		requires("rimelib")
+		optional("modmenu")
+		projectDescription = providers.fileContents(layout.projectDirectory.file("README.md")).asText
+		featured = true
+	}
 }
