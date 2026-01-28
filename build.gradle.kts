@@ -6,30 +6,55 @@ plugins {
 
 repositories {
 	mavenCentral()
-	mavenLocal()
-	maven("https://maven.isxander.dev/releases") {
-		name = "Xander Maven"
+	// Yacl is now also on mavencentral but its quilt dependencies are not, which is just weird
+	exclusiveContent {
+		forRepository {
+			maven("https://maven.isxander.dev/releases") { name = "Xander Maven" }
+		}
+		filter {
+			includeGroupAndSubgroups("org.quiltmc")
+		}
 	}
-	maven("https://maven.terraformersmc.com/releases") {
-		name = "Terraformers"
+	exclusiveContent {
+		forRepository {
+			maven("https://maven.terraformersmc.com/releases") { name = "Terraformers" }
+		}
+		filter {
+			includeGroupAndSubgroups("com.terraformersmc")
+		}
+	}
+	exclusiveContent {
+		forRepositories(
+			maven("https://ancientri.me/maven/snapshots") {
+				name = "AncientRimeSnapshots"
+				mavenContent { snapshotsOnly() }
+			},
+			maven("https://ancientri.me/maven/releases") {
+				name = "AncientRimeReleases"
+				mavenContent { releasesOnly() }
+			}
+		)
+		filter {
+			includeGroupAndSubgroups("me.ancientri")
+		}
 	}
 }
 
 val modName = property("mod_name") as String
 val modId = property("mod_id") as String
 group = property("maven_group") as String
-version = "${libs.versions.modVersion.get()}+${libs.versions.minecraft.get()}"
+version = "${properties["version"]}+${libs.versions.minecraft.get()}"
 
 dependencies {
 	minecraft(libs.minecraft)
-	mappings("net.fabricmc:yarn:${libs.versions.yarnMappings.get()}:v2") // Gradle version catalogue doesn't like the :v2 suffix
+	mappings(variantOf(libs.yarnMappings) { classifier("v2") })
 	modImplementation(libs.fabricLoader)
 
 	modImplementation(libs.fabricApi)
 	modImplementation(libs.fabricLanguageKotlin)
 	modImplementation(libs.yacl)
 	modImplementation(libs.modMenu)
-	include(modImplementation(libs.rimelib.get())!!) // Loom doesn't like `Provider` types, so we have to `.get()` it
+	modImplementation(libs.rimelib)
 }
 
 tasks {
@@ -40,7 +65,9 @@ tasks {
 			"loader_version" to libs.versions.fabricLoader.get(),
 			"fabric_kotlin_version" to libs.versions.fabricLanguageKotlin.get(),
 			"modmenu_version" to libs.versions.modMenu.get(),
-			"yacl_version" to libs.versions.yacl.get()
+			"yacl_version" to libs.versions.yacl.get(),
+			"rimelib_version" to libs.versions.rimelib.get(),
+
 		)
 		inputs.properties(props)
 		filesMatching("fabric.mod.json") {

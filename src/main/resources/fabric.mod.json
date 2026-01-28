@@ -15,11 +15,11 @@
 	"entrypoints": {
 		"client": [
 			{
-				"value": "me.rime.screenshotfolder.ScreenshotFolder::init",
+				"value": "me.ancientri.screenshotfolder.ScreenshotFolder::init",
 				"adapter": "kotlin"
 			}
 		],
-		"modmenu": [ "me.rime.screenshotfolder.modmenu.ModMenuApiImpl" ]
+		"modmenu": [ "me.ancientri.screenshotfolder.modmenu.ModMenuApiImpl" ]
 	},
 	"mixins": [
 		"screenshotfolder.mixins.json"
@@ -29,7 +29,8 @@
 		"fabric-api": "*",
 		"minecraft": ">=${minecraft_version}",
 		"fabric-language-kotlin": ">=${fabric_kotlin_version}",
-		"yet_another_config_lib_v3": ">=${yacl_version}"
+		"yet_another_config_lib_v3": ">=${yacl_version}",
+		"rimelib": ">=${rimelib_version}"
 	},
 	"suggests": {
 		"modmenu": ">=${modmenu_version}"
